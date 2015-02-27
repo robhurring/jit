@@ -74,7 +74,7 @@ func check(err error) {
 	}
 }
 
-func GetConfig() (config *Config, err error) {
+func GetConfig() (config *Config) {
 	configFile := path.Join(ConfigPath(), ConfigFilename)
 
 	if !FileExists(configFile) {
@@ -83,6 +83,8 @@ func GetConfig() (config *Config, err error) {
 
 	config = new(Config)
 	data, err := ioutil.ReadFile(configFile)
+	check(err)
+
 	json.Unmarshal(data, config)
 
 	return

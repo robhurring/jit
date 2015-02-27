@@ -1,8 +1,6 @@
 package info
 
 import (
-	"fmt"
-
 	"github.com/codegangsta/cli"
 	"github.com/robhurring/jit/util"
 )
@@ -21,6 +19,7 @@ func init() {
 }
 
 func Info() {
-	config, _ := util.GetConfig()
-	fmt.Print(config)
+	issue := util.GetIssue("AUTO-83")
+	// util.Debug(issue.Fields.Comment.Comments[0].Created)
+	util.RenderTemplate("issue.info", issue)
 }
