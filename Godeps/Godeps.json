@@ -6,6 +6,14 @@
 			"ImportPath": "github.com/codegangsta/cli",
 			"Comment": "1.2.0-66-g6086d79",
 			"Rev": "6086d7927ec35315964d9fea46df6c04e6d697c1"
+		},
+		{
+			"ImportPath": "github.com/robhurring/go-jira-client",
+			"Rev": "959335a89526e738728e8c042253785e5a2f5823"
+		},
+		{
+			"ImportPath": "github.com/wsxiaoys/terminal/color",
+			"Rev": "9dcaf1d63119a8ac00eef82270eaef08b6aa2328"
 		}
 	]
 }
