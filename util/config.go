@@ -35,11 +35,12 @@ func (c *GithubConfig) FilledOut() bool {
 }
 
 type JiraConfig struct {
-	Host         string `json:"host"`
-	ApiPath      string `json:"api_path"`
-	ActivityPath string `json:"activity_path"`
-	Login        string `json:"login"`
-	Password     string `json:"password"`
+	Host           string `json:"host"`
+	ApiPath        string `json:"api_path"`
+	ActivityPath   string `json:"activity_path"`
+	Login          string `json:"login"`
+	Password       string `json:"password"`
+	DefaultProject string `json:"defaultProject"`
 }
 
 func (c *JiraConfig) FilledOut() bool {
@@ -102,4 +103,8 @@ func WriteConfig(c *Config) {
 
 	ioerr := ioutil.WriteFile(configFile, data, 0644)
 	check(ioerr)
+}
+
+func SaveConfig() {
+	WriteConfig(GetConfig())
 }

@@ -6,9 +6,13 @@ import (
 	"github.com/codegangsta/cli"
 	"github.com/robhurring/jit/branch"
 	"github.com/robhurring/jit/info"
+	"github.com/robhurring/jit/open"
+	"github.com/robhurring/jit/util"
 )
 
 func main() {
+	defer util.SaveConfig()
+
 	app := cli.NewApp()
 	app.Name = "jit"
 	app.Usage = "Jira + Git: A workflow story"
@@ -18,6 +22,7 @@ func main() {
 
 	app.Commands = append(app.Commands, branch.Commands...)
 	app.Commands = append(app.Commands, info.Commands...)
+	app.Commands = append(app.Commands, open.Commands...)
 
 	app.Run(os.Args)
 }
