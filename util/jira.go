@@ -28,7 +28,7 @@ func GetIssue(key string, allFields bool) gojira.Issue {
 		params = gojira.Params{"fields": "key,summary"}
 	}
 
-	return jira.Issue(key, params)
+	return jira.Issue(NormalizeIssueKey(key), params)
 }
 
 func IssueURL(key string) string {

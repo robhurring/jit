@@ -1,9 +1,0 @@
-jira:
-  host:          http://REQUIRED.atlassian.com
-  api_path:      /rest/api/2
-  activity_path: /activity
-  login:         REQUIRED
-  password:      REQUIRED
-github:
-  username:   REQUIRED
-  token:      REQUIRED
