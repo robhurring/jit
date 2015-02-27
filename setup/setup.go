@@ -1,7 +1,17 @@
 package setup
 
-import "fmt"
+import "github.com/robhurring/jit/util"
 
-func Setup() {
-	fmt.Println("Run setup...")
+func Needed() (needed bool) {
+	config := util.GetConfig()
+
+	needed = false
+	needed = !config.Jira.FilledOut()
+	needed = !config.Github.FilledOut()
+
+	return
+}
+
+func Run() {
+	util.Logger.Log("@r[setup needed]\n\n")
 }

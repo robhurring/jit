@@ -48,14 +48,16 @@ func (c *JiraConfig) FilledOut() bool {
 }
 
 func createConfig() {
-	jiraConfig := &JiraConfig{
-		Host:         "",
-		ApiPath:      "/rest/api/2",
-		ActivityPath: "/activity",
-	}
-
 	config := &Config{
-		Jira:            jiraConfig,
+		Jira: &JiraConfig{
+			Host:         "",
+			ApiPath:      "/rest/api/2",
+			ActivityPath: "/activity",
+		},
+		Github: &GithubConfig{
+			Username: "",
+			Token:    "",
+		},
 		MaxBranchLength: 25,
 		DefaultRemote:   "origin",
 		DefaultBranch:   "dev",

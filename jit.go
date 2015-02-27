@@ -7,6 +7,7 @@ import (
 	"github.com/robhurring/jit/branch"
 	"github.com/robhurring/jit/info"
 	"github.com/robhurring/jit/open"
+	"github.com/robhurring/jit/setup"
 	"github.com/robhurring/jit/util"
 )
 
@@ -23,6 +24,11 @@ func main() {
 	app.Commands = append(app.Commands, branch.Commands...)
 	app.Commands = append(app.Commands, info.Commands...)
 	app.Commands = append(app.Commands, open.Commands...)
+
+	// Check if setup
+	if setup.Needed() {
+		setup.Run()
+	}
 
 	app.Run(os.Args)
 }
