@@ -1,17 +1,13 @@
-package util
+package main
 
 import (
 	"bufio"
 	"strings"
 	"text/template"
-	"time"
 )
 
-var (
-	templates *template.Template
-)
-
-const issueInfoTemplate = `
+const (
+	issueInfoTemplate = `
 @y{{ .Key }}: @{!w}{{ .Fields.Summary }}
 @{!k}{{ .Self }}
 
@@ -31,13 +27,15 @@ const issueInfoTemplate = `
 @{!k}{{ $comment.Author.DisplayName }}@|
 {{ end }}
 {{ end }}`
+)
+
+var (
+	templates *template.Template
+)
 
 func init() {
 	templateFuncs := template.FuncMap{
 		"trim": strings.TrimSpace,
-		"time": func(t time.Time) string {
-			return t.Format("Mon 3:04PM")
-		},
 	}
 
 	t := template.New("all")

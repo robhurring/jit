@@ -1,4 +1,4 @@
-package util
+package main
 
 import (
 	"strings"
@@ -9,8 +9,7 @@ import (
 var jiraConfig *JiraConfig
 
 func init() {
-	config := GetConfig()
-	jiraConfig = config.Jira
+	jiraConfig = AppConfig.Jira
 }
 
 func GetIssue(key string, allFields bool) gojira.Issue {

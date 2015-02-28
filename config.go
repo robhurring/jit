@@ -1,4 +1,4 @@
-package util
+package main
 
 import (
 	"encoding/json"
@@ -11,6 +11,14 @@ import (
 const (
 	ConfigFilename = "config.json"
 )
+
+var (
+	AppConfig *Config
+)
+
+func init() {
+	AppConfig = GetConfig()
+}
 
 func ConfigPath() string {
 	return path.Join(os.Getenv("HOME"), ".config", "jit")
