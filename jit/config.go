@@ -1,4 +1,4 @@
-package main
+package jit
 
 import (
 	"encoding/json"
@@ -6,6 +6,8 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
+
+	"github.com/robhurring/jit/utils"
 )
 
 const (
@@ -88,13 +90,13 @@ func check(err error) {
 func GetConfig() (config *Config) {
 	configFile := path.Join(ConfigPath(), ConfigFilename)
 
-	if !FileExists(configFile) {
+	if !utils.FileExists(configFile) {
 		createConfig()
 	}
 
 	config = new(Config)
 	data, err := ioutil.ReadFile(configFile)
-	check(err)
+	utils.Check(err)
 
 	json.Unmarshal(data, config)
 

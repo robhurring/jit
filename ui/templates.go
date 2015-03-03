@@ -1,7 +1,7 @@
-package main
+package ui
 
 import (
-	"bufio"
+	"bytes"
 	"strings"
 	"text/template"
 )
@@ -45,9 +45,7 @@ func init() {
 }
 
 func RenderTemplate(name string, data interface{}) {
-	// templates are rendered in chunks so we need to buffer it, otherwise
-	// we lose the ability to use colors
-	w := bufio.NewWriter(Logger)
-	templates.ExecuteTemplate(w, name, data)
-	w.Flush()
+	var b bytes.Buffer
+	templates.ExecuteTemplate(&b, name, data)
+	Println(b.String())
 }
