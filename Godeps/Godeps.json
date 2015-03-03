@@ -8,6 +8,16 @@
 			"Rev": "6086d7927ec35315964d9fea46df6c04e6d697c1"
 		},
 		{
+			"ImportPath": "github.com/codegangsta/inject",
+			"Comment": "v1.0-rc1-10-g33e0aa1",
+			"Rev": "33e0aa1cb7c019ccc3fbe049a8262a6403d30504"
+		},
+		{
+			"ImportPath": "github.com/codeskyblue/go-sh",
+			"Comment": "v0.1-26-g7a1ecf3",
+			"Rev": "7a1ecf31d357d6725db2110109de1795a5b4b14a"
+		},
+		{
 			"ImportPath": "github.com/robhurring/go-jira-client",
 			"Rev": "959335a89526e738728e8c042253785e5a2f5823"
 		},

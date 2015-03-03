@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"github.com/robhurring/go-jira-client"
+	"github.com/robhurring/jit/ui"
 )
 
 var jiraConfig *JiraConfig
@@ -12,8 +13,23 @@ func init() {
 	jiraConfig = AppConfig.Jira
 }
 
+func FindIssueKey(args []string) (key string, err error) {
+	err = nil
+	key = ""
+
+	if len(args) > 0 {
+		key = NormalizeIssueKey(args[0])
+	} else {
+		// TODO: lookup issue from branch name
+		err = ui.Error("No issue given, or could be found for the current branch!")
+	}
+
+	return
+}
+
 func GetIssue(key string, allFields bool) gojira.Issue {
 	var params gojira.Params = nil
+	key = NormalizeIssueKey(key)
 
 	jira := gojira.NewJira(
 		jiraConfig.Host,
@@ -27,16 +43,17 @@ func GetIssue(key string, allFields bool) gojira.Issue {
 		params = gojira.Params{"fields": "key,summary"}
 	}
 
-	return jira.Issue(NormalizeIssueKey(key), params)
+	return jira.Issue(key, params)
 }
 
 func IssueURL(key string) string {
-	return jiraConfig.Host + "/browse/" + NormalizeIssueKey(key)
+	key = NormalizeIssueKey(key)
+	return jiraConfig.Host + "/browse/" + key
 }
 
 func NormalizeIssueKey(key string) string {
 	if i := strings.Index(key, "-"); i == -1 {
-		key = jiraConfig.DefaultProject + "-" + key
+		key = strings.ToUpper(jiraConfig.DefaultProject) + "-" + key
 	}
 
 	return key

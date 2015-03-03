@@ -12,7 +12,7 @@ func init() {
 		ShortName: "in",
 		Usage:     "Get info about an ISSUE",
 		Action: func(c *cli.Context) {
-			key, err := FindIssueKey(c.Args())
+			key, err := jit.FindIssueKey(c.Args())
 
 			if err != nil {
 				ui.Errorln(err)
