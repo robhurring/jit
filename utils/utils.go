@@ -5,18 +5,15 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-
-	"github.com/robhurring/jit/ui"
 )
 
 func Check(err error) {
 	if err != nil {
-		ui.Errorln(err)
-		os.Exit(1)
+		panic(err)
 	}
 }
 
-func Debug(obj interface{}) {
+func Debug(obj ...interface{}) {
 	data, _ := json.Marshal(obj)
 	fmt.Println(string(data))
 }

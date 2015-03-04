@@ -19,8 +19,13 @@ func init() {
 				ui.Errorln(err)
 			} else {
 				url := jit.IssueURL(key)
-				ui.Printf("@{!w}Opening@| %s\n", url)
-				sh.Command("open", url).Run()
+				cmd := sh.Command("open", url)
+
+				if err := cmd.Run(); err != nil {
+					panic(err)
+				} else {
+					ui.Printf("@{!w}Opening@| %s\n", url)
+				}
 			}
 		},
 	})

@@ -19,8 +19,13 @@ func init() {
 				ui.Errorln(err)
 			} else {
 				url := jit.IssueURL(key)
-				ui.Printf("@{!w}Copied!@| %s\n", url)
-				sh.Command("echo", url).Command("pbcopy").Run()
+				cmd := sh.Command("echo", url).Command("pbcopy")
+
+				if err := cmd.Run(); err != nil {
+					panic(err)
+				} else {
+					ui.Printf("@{!w}Copied!@| %s\n", url)
+				}
 			}
 		},
 	})

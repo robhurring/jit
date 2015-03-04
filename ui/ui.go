@@ -59,7 +59,7 @@ func (c Console) Errorf(format string, a ...interface{}) (n int, err error) {
 }
 
 func (c Console) Errorln(a ...interface{}) (n int, err error) {
-	return color.Fprintln(c.Stderr, a...)
+	return color.Fprintf(c.Stderr, "@r%s@|\n", a...)
 }
 
 // Won't really work with templates since we aren't buffering at all

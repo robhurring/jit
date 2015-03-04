@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/codegangsta/cli"
+	"github.com/github/hub/ui"
 )
 
 var (
@@ -19,6 +20,13 @@ func (r *Runner) Add(c *cli.Command) {
 }
 
 func (r *Runner) Execute(app *cli.App) {
+	defer func() {
+		if err := recover(); err != nil {
+			ui.Errorln(err)
+			os.Exit(1)
+		}
+	}()
+
 	app.Commands = r.commands
 	app.Run(os.Args)
 }

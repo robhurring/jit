@@ -1,6 +1,7 @@
 package jit
 
 import (
+	"regexp"
 	"strings"
 
 	"github.com/robhurring/go-jira-client"
@@ -53,8 +54,36 @@ func IssueURL(key string) string {
 
 func NormalizeIssueKey(key string) string {
 	if i := strings.Index(key, "-"); i == -1 {
-		key = strings.ToUpper(jiraConfig.DefaultProject) + "-" + key
+		key = jiraConfig.DefaultProject + "-" + key
 	}
 
-	return key
+	return strings.ToUpper(key)
+}
+
+func IssueBranchName(issue gojira.Issue) string {
+	maxBranchLength := AppConfig.MaxBranchLength
+
+	re := regexp.MustCompile(`[\s]+`)
+	fullName := strings.ToUpper(issue.Key) + "_" + strings.ToLower(issue.Fields.Summary)
+	underscored := re.ReplaceAllString(fullName, "_")
+
+	return trimMaxLength(underscored, "_", maxBranchLength)
+}
+
+func min(a, b int) int {
+	if a < b {
+		return a
+	} else {
+		return b
+	}
+}
+
+func trimMaxLength(s, sep string, maxLength int) string {
+	cutLine := maxLength
+
+	trimmed := s[:cutLine]
+	lastOccurance := strings.LastIndex(trimmed, sep)
+	cutLine = min(maxLength, lastOccurance)
+
+	return trimmed[:cutLine]
 }
