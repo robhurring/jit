@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/robhurring/go-jira-client"
-	"github.com/robhurring/jit/ui"
 )
 
 var jiraConfig *JiraConfig
@@ -45,7 +44,7 @@ func FindIssueKey(args []string) (key string, err error) {
 	if len(args) > 0 {
 		key = NormalizeIssueKey(args[0])
 	} else {
-		err = ui.Error("No issue given, or could be found for the current branch!")
+		panic("No issue given, or could be found for the current branch!")
 	}
 
 	return
