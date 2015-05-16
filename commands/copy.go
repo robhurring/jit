@@ -19,11 +19,7 @@ func init() {
 				ui.Errorln(err)
 			} else {
 				url := jit.IssueURL(key)
-				echo := cmd.New("echo").WithArgs(url)
-				copy := cmd.New("pbcopy")
-
-				_, _, err := cmd.Pipeline(echo, copy)
-				if err != nil {
+				if err := cmd.Copy(url); err != nil {
 					panic(err)
 				}
 

@@ -62,7 +62,7 @@ func NormalizeIssueKey(key string) string {
 func IssueBranchName(issue gojira.Issue) string {
 	maxBranchLength := AppConfig.MaxBranchLength
 
-	re := regexp.MustCompile(`[\s]+`)
+	re := regexp.MustCompile(`[^\w-]+`)
 	fullName := strings.ToUpper(issue.Key) + "_" + strings.ToLower(issue.Fields.Summary)
 	underscored := re.ReplaceAllString(fullName, "_")
 

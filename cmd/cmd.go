@@ -13,6 +13,13 @@ import (
 	"github.com/robhurring/jit/utils"
 )
 
+func Copy(data string) (err error) {
+	echo := New("echo").WithArgs(data)
+	copy := New("pbcopy")
+	_, _, err = Pipeline(echo, copy)
+	return
+}
+
 type Cmd struct {
 	Name string
 	Args []string

@@ -43,6 +43,32 @@ func Dir() (string, error) {
 	return gitDir, nil
 }
 
+func BranchExists(name string) (exists bool, err error) {
+	exists = false
+
+	branches, err := BranchList()
+	if err != nil {
+		return
+	}
+
+	for _, branch := range branches {
+		if branch == name {
+			exists = true
+			break
+		}
+	}
+
+	return
+}
+
+func Checkout(branch string) error {
+	return cmd.New("git").WithArgs("checkout", branch).Run()
+}
+
+func CreateBranch(name string) (string, error) {
+	return cmd.New("git").WithArgs("branch", name).CombinedOutput()
+}
+
 func BranchList() ([]string, error) {
 	branchSet := make(map[string]int)
 
