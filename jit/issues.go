@@ -21,7 +21,6 @@ func FindIssueKey(args []string) (key string, err error) {
 	if len(args) > 0 {
 		key = NormalizeIssueKey(args[0])
 	} else {
-		// TODO: lookup issue from branch name
 		err = ui.Error("No issue given, or could be found for the current branch!")
 	}
 

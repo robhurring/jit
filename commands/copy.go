@@ -2,7 +2,7 @@ package commands
 
 import (
 	"github.com/codegangsta/cli"
-	"github.com/codeskyblue/go-sh"
+	"github.com/robhurring/jit/cmd"
 	"github.com/robhurring/jit/jit"
 	"github.com/robhurring/jit/ui"
 )
@@ -19,13 +19,15 @@ func init() {
 				ui.Errorln(err)
 			} else {
 				url := jit.IssueURL(key)
-				cmd := sh.Command("echo", url).Command("pbcopy")
+				echo := cmd.New("echo").WithArgs(url)
+				copy := cmd.New("pbcopy")
 
-				if err := cmd.Run(); err != nil {
+				_, _, err := cmd.Pipeline(echo, copy)
+				if err != nil {
 					panic(err)
-				} else {
-					ui.Printf("@{!w}Copied!@| %s\n", url)
 				}
+
+				ui.Printf("@{!w}Copied!@| %s\n", url)
 			}
 		},
 	})

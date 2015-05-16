@@ -2,7 +2,8 @@ package commands
 
 import (
 	"github.com/codegangsta/cli"
-	"github.com/github/hub/git"
+	"github.com/robhurring/jit/git"
+	"github.com/robhurring/jit/jit"
 	"github.com/robhurring/jit/utils"
 )
 
@@ -12,17 +13,28 @@ func init() {
 		ShortName: "br",
 		Usage:     "Create a new branch for the given ISSUE",
 		Action: func(c *cli.Context) {
-			// key, err := jit.FindIssueKey(c.Args())
+			// panic unless we have a .git dir
+			if _, err := git.Dir(); err != nil {
+				panic(err)
+			}
 
-			// if err != nil {
-			// 	ui.Errorln(err)
-			// } else {
-			// issue := jit.GetIssue(key, false)
-			// branchName := jit.IssueBranchName(issue)
+			key, err := jit.FindIssueKey(c.Args())
+			if err != nil {
+				panic(err)
+			}
 
-			// ui.Println(branchName)
-			utils.Debug(git.Head())
-			// }
+			createBranch(key)
 		},
 	})
+}
+
+func createBranch(key string) {
+	branches, err := git.BranchList()
+
+	if err != nil {
+		panic(err)
+	}
+
+	utils.Debug(branches)
+
 }

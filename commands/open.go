@@ -2,7 +2,7 @@ package commands
 
 import (
 	"github.com/codegangsta/cli"
-	"github.com/codeskyblue/go-sh"
+	"github.com/github/hub/cmd"
 	"github.com/robhurring/jit/jit"
 	"github.com/robhurring/jit/ui"
 )
@@ -19,7 +19,7 @@ func init() {
 				ui.Errorln(err)
 			} else {
 				url := jit.IssueURL(key)
-				cmd := sh.Command("open", url)
+				cmd := cmd.New("open").WithArg(url)
 
 				if err := cmd.Run(); err != nil {
 					panic(err)

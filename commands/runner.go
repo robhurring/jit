@@ -4,7 +4,7 @@ import (
 	"os"
 
 	"github.com/codegangsta/cli"
-	"github.com/github/hub/ui"
+	"github.com/robhurring/jit/ui"
 )
 
 var (
