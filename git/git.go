@@ -61,12 +61,17 @@ func BranchExists(name string) (exists bool, err error) {
 	return
 }
 
-func Checkout(branch string) error {
-	return cmd.New("git").WithArgs("checkout", branch).Run()
+func Checkout(branch string) (string, error) {
+	return cmd.New("git").WithArgs("checkout", branch).CombinedOutput()
 }
 
 func CreateBranch(name string) (string, error) {
 	return cmd.New("git").WithArgs("branch", name).CombinedOutput()
+}
+
+func CurrentBranch() (string, error) {
+	output, err := cmd.New("git").WithArgs("rev-parse", "--abbrev-ref", "HEAD").CombinedOutput()
+	return strings.TrimSpace(output), err
 }
 
 func BranchList() ([]string, error) {

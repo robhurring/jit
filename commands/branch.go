@@ -56,6 +56,15 @@ func init() {
 	})
 }
 
+func checkoutBranch(branch string) {
+	output, err := git.Checkout(branch)
+	if err != nil {
+		panic(err)
+	}
+
+	ui.Printf("@{!w}%s@|", output)
+}
+
 func createBranch(branch string) {
 	exists, err := git.BranchExists(branch)
 	if err != nil {
@@ -63,13 +72,13 @@ func createBranch(branch string) {
 	}
 
 	if exists {
-		git.Checkout(branch)
-	} else {
-		_, err := git.CreateBranch(branch)
-		if err != nil {
-			panic(err)
-		}
-
-		git.Checkout(branch)
+		checkoutBranch(branch)
+		return
 	}
+
+	if _, err := git.CreateBranch(branch); err != nil {
+		panic(err)
+	}
+
+	checkoutBranch(branch)
 }
