@@ -35,7 +35,7 @@ func init() {
 			}
 
 			issue := jit.GetIssue(key, true)
-			branchName := jit.IssueBranchName(issue)
+			branchName := issue.BranchName()
 
 			if c.Bool("preview") {
 				ui.Printf("@{!w}%s@|\n", branchName)
@@ -51,7 +51,9 @@ func init() {
 				return
 			}
 
-			createBranch(branchName)
+			branch := &git.Branch{Name: branchName}
+
+			createBranch(branch)
 		},
 	})
 }
@@ -65,9 +67,7 @@ func checkoutBranch(branch *git.Branch) {
 	ui.Printf("@{!w}%s@|", output)
 }
 
-func createBranch(branchName string) {
-	branch := &git.Branch{Name: branchName}
-
+func createBranch(branch *git.Branch) {
 	exists, err := branch.Exists()
 	if err != nil {
 		panic(err)

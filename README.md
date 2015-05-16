@@ -53,3 +53,7 @@ Open the given ticket in the browser. Jit will extract the ticket ID from the fe
 
 Copy the given ticket to the clipboard. Jit will extract the ticket ID from the feature branch if possible and no ID was given in the args.
 
+
+### Credits
+
+I lovingly stole a bunch of functions from [Github's hub](https://github.com/github/hub) repo.

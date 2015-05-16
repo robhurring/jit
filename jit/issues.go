@@ -14,6 +14,30 @@ func init() {
 	jiraConfig = AppConfig.Jira
 }
 
+type Issue struct {
+	gojira.Issue
+}
+
+func (i *Issue) URL() string {
+	return IssueURL(i.Key)
+}
+
+func (i *Issue) String() string {
+	summary := i.Fields.Summary
+	return strings.ToUpper(i.Key) + ": " + strings.ToLower(summary)
+}
+
+func (i *Issue) BranchName() string {
+	maxBranchLength := AppConfig.MaxBranchLength
+	summary := i.Fields.Summary
+
+	re := regexp.MustCompile(`[^\w-]+`)
+	fullName := strings.ToUpper(i.Key) + "_" + strings.ToLower(summary)
+	underscored := re.ReplaceAllString(fullName, "_")
+
+	return trimMaxLength(underscored, "_", maxBranchLength)
+}
+
 func FindIssueKey(args []string) (key string, err error) {
 	err = nil
 	key = ""
@@ -27,7 +51,7 @@ func FindIssueKey(args []string) (key string, err error) {
 	return
 }
 
-func GetIssue(key string, allFields bool) gojira.Issue {
+func GetIssue(key string, allFields bool) *Issue {
 	var params gojira.Params = nil
 	key = NormalizeIssueKey(key)
 
@@ -43,7 +67,12 @@ func GetIssue(key string, allFields bool) gojira.Issue {
 		params = gojira.Params{"fields": "key,summary"}
 	}
 
-	return jira.Issue(key, params)
+	jiraIssue := jira.Issue(key, params)
+	issue := &Issue{
+		Issue: jiraIssue,
+	}
+
+	return issue
 }
 
 func IssueURL(key string) string {
@@ -57,16 +86,6 @@ func NormalizeIssueKey(key string) string {
 	}
 
 	return strings.ToUpper(key)
-}
-
-func IssueBranchName(issue gojira.Issue) string {
-	maxBranchLength := AppConfig.MaxBranchLength
-
-	re := regexp.MustCompile(`[^\w-]+`)
-	fullName := strings.ToUpper(issue.Key) + "_" + strings.ToLower(issue.Fields.Summary)
-	underscored := re.ReplaceAllString(fullName, "_")
-
-	return trimMaxLength(underscored, "_", maxBranchLength)
 }
 
 func min(a, b int) int {

@@ -64,32 +64,6 @@ func normalizeBranchName(branch string) (output string, ok bool) {
 	return
 }
 
-// func BranchExists(name string) (exists bool, err error) {
-// 	exists = false
-
-// 	branches, err := BranchList()
-// 	if err != nil {
-// 		return
-// 	}
-
-// 	for _, branch := range branches {
-// 		if branch == name {
-// 			exists = true
-// 			break
-// 		}
-// 	}
-
-// 	return
-// }
-
-// func Checkout(branch string) (string, error) {
-// 	return cmd.New("git").WithArgs("checkout", branch).CombinedOutput()
-// }
-
-// func CreateBranch(name string) (string, error) {
-// 	return cmd.New("git").WithArgs("branch", name).CombinedOutput()
-// }
-
 func CurrentBranch() (branch *Branch, err error) {
 	output, err := cmd.New("git").WithArgs("rev-parse", "--abbrev-ref", "HEAD").CombinedOutput()
 	name := strings.TrimSpace(output)
@@ -140,11 +114,6 @@ func DefaultBranch() (branch *Branch, err error) {
 	return
 }
 
-// func ShortName(branch string) string {
-// 	reg := regexp.MustCompile("^refs/(remotes/)?.+?/")
-// 	return reg.ReplaceAllString(branch, "")
-// }
-
 func BranchList() (branches []*Branch, err error) {
 	branchSet := make(map[string]int)
 
@@ -153,8 +122,7 @@ func BranchList() (branches []*Branch, err error) {
 
 	output, _, err := cmd.Pipeline(branchCmd, cutCmd)
 	if err != nil {
-		fmt.Println("erro.")
-		return
+		panic(err)
 	}
 
 	list := strings.Split(string(output), "\n")

@@ -23,16 +23,3 @@ func NewAuthenticatedGithubClient() *github.Client {
 func NewGithubClient() *github.Client {
 	return github.NewClient(nil)
 }
-
-// func CreatePullRequest(pull *github.NewPullRequest) (*github.PullRequest, error) {
-// Create(owner string, repo string, pull *NewPullRequest) (*PullRequest, *Response, error) {
-
-// }
-
-// type NewPullRequest struct {
-//   Title *string `json:"title,omitempty"`
-//   Head  *string `json:"head,omitempty"`
-//   Base  *string `json:"base,omitempty"`
-//   Body  *string `json:"body,omitempty"`
-//   Issue *int    `json:"issue,omitempty"`
-// }
