@@ -1,13 +1,39 @@
 {
 	"ImportPath": "github.com/robhurring/jit",
 	"GoVersion": "go1.4",
-	"Packages": [
-		"github.com/google/go-github/github"
-	],
 	"Deps": [
+		{
+			"ImportPath": "github.com/codegangsta/cli",
+			"Comment": "1.2.0-66-g6086d79",
+			"Rev": "6086d7927ec35315964d9fea46df6c04e6d697c1"
+		},
+		{
+			"ImportPath": "github.com/google/go-github/github",
+			"Rev": "7ea4ee6d222607c11ea86e99a6f6723beeae785d"
+		},
 		{
 			"ImportPath": "github.com/google/go-querystring/query",
 			"Rev": "d8840cbb2baa915f4836edda4750050a2c0b7aea"
+		},
+		{
+			"ImportPath": "github.com/kballard/go-shellquote",
+			"Rev": "e5c918b80c17694cbc49aab32a759f9a40067f5d"
+		},
+		{
+			"ImportPath": "github.com/robhurring/go-jira-client",
+			"Rev": "beba3b7d6d51266f95f4d4955799fec517837985"
+		},
+		{
+			"ImportPath": "github.com/wsxiaoys/terminal/color",
+			"Rev": "9dcaf1d63119a8ac00eef82270eaef08b6aa2328"
+		},
+		{
+			"ImportPath": "golang.org/x/net/context",
+			"Rev": "5aa7325eaa14d7ed4b520f40d58adf2834c8de01"
+		},
+		{
+			"ImportPath": "golang.org/x/oauth2",
+			"Rev": "f98d0160877ab4712b906626425ed8b0b320907c"
 		}
 	]
 }

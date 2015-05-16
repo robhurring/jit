@@ -2,26 +2,39 @@ package git
 
 import (
 	"fmt"
+	"net/url"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"github.com/robhurring/jit/cmd"
 )
 
-func normalizeBranchName(branch string) (output string, ok bool) {
-	ok, output = true, branch
+var (
+	protocolRe = regexp.MustCompile("^[a-zA-Z_-]+://")
+)
 
-	if branch == "" {
-		ok = false
+type Remote struct {
+	Name string
+	URL  *url.URL
+}
+
+type GithubProject struct {
+	Owner string
+	Name  string
+}
+
+func (r *Remote) Project() (project *GithubProject, err error) {
+	parts := strings.SplitN(r.URL.Path, "/", 4)
+	if len(parts) <= 2 {
+		err = fmt.Errorf("Invalid GitHub URL: %s", r.URL)
+		return
 	}
 
-	if strings.Contains(branch, "HEAD") {
-		ok = false
-	}
-
-	if ok {
-		pieces := strings.Split(branch, "/")
-		output = pieces[len(pieces)-1]
+	name := strings.TrimSuffix(parts[2], ".git")
+	project = &GithubProject{
+		Owner: parts[1],
+		Name:  name,
 	}
 
 	return
@@ -34,7 +47,7 @@ func Dir() (string, error) {
 		return "", fmt.Errorf("Not a git repository (or any of the parent directories): .git")
 	}
 
-	gitDir := string(output[0])
+	gitDir := strings.TrimSpace(string(output))
 	gitDir, err = filepath.Abs(gitDir)
 	if err != nil {
 		return "", err
@@ -43,17 +56,35 @@ func Dir() (string, error) {
 	return gitDir, nil
 }
 
-func BranchExists(name string) (exists bool, err error) {
-	exists = false
+func ParseRemote(rawURL string) (u *url.URL, err error) {
+	if !protocolRe.MatchString(rawURL) &&
+		strings.Contains(rawURL, ":") &&
+		// not a Windows path
+		!strings.Contains(rawURL, "\\") {
+		rawURL = "ssh://" + strings.Replace(rawURL, ":", "/", 1)
+	}
 
-	branches, err := BranchList()
+	u, err = url.Parse(rawURL)
 	if err != nil {
 		return
 	}
 
-	for _, branch := range branches {
-		if branch == name {
-			exists = true
+	if u.Scheme != "ssh" {
+		return
+	}
+
+	return
+}
+
+func OriginRemote() (remote Remote, err error) {
+	remotes, err := Remotes()
+	if err != nil {
+		return
+	}
+
+	for _, r := range remotes {
+		if r.Name == "origin" {
+			remote = r
 			break
 		}
 	}
@@ -61,44 +92,35 @@ func BranchExists(name string) (exists bool, err error) {
 	return
 }
 
-func Checkout(branch string) (string, error) {
-	return cmd.New("git").WithArgs("checkout", branch).CombinedOutput()
-}
+func Remotes() (remotes []Remote, err error) {
+	re := regexp.MustCompile(`(.+)\s+(.+)\s+\((push|fetch)\)`)
 
-func CreateBranch(name string) (string, error) {
-	return cmd.New("git").WithArgs("branch", name).CombinedOutput()
-}
-
-func CurrentBranch() (string, error) {
-	output, err := cmd.New("git").WithArgs("rev-parse", "--abbrev-ref", "HEAD").CombinedOutput()
-	return strings.TrimSpace(output), err
-}
-
-func BranchList() ([]string, error) {
-	branchSet := make(map[string]int)
-
-	branchCmd := cmd.New("git").WithArgs("branch", "-a", "--no-color")
-	cutCmd := cmd.New("cut").WithArgs("-c", "3-")
-
-	output, _, err := cmd.Pipeline(branchCmd, cutCmd)
+	output, err := cmd.New("git").WithArgs("remote", "-v").CombinedOutput()
 	if err != nil {
-		fmt.Println("erro.")
-		return []string{}, err
+		return
 	}
 
-	list := strings.Split(string(output), "\n")
-	for _, branch := range list {
-		if normalized, ok := normalizeBranchName(branch); ok {
-			if _, exists := branchSet[normalized]; !exists {
-				branchSet[normalized] = 0
-			}
+	// build the remotes map
+	rs := strings.Split(string(output), "\n")
+	remotesMap := make(map[string]string)
+	for _, r := range rs {
+		if re.MatchString(r) {
+			match := re.FindStringSubmatch(r)
+			name := strings.TrimSpace(match[1])
+			url := strings.TrimSpace(match[2])
+			remotesMap[name] = url
 		}
 	}
 
-	branches := []string{}
-	for name := range branchSet {
-		branches = append(branches, name)
+	fmt.Println(remotesMap)
+
+	// the rest of the remotes
+	for n, u := range remotesMap {
+		url, e := ParseRemote(u)
+		if e == nil {
+			remotes = append(remotes, Remote{Name: n, URL: url})
+		}
 	}
 
-	return branches, err
+	return
 }

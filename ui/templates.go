@@ -27,6 +27,10 @@ const (
 @{!k}{{ $comment.Author.DisplayName }}@|
 {{ end }}
 {{ end }}`
+
+	pullRequestTemplate = `
+OHai.
+`
 )
 
 var (

@@ -35,29 +35,29 @@ func init() {
 			}
 
 			issue := jit.GetIssue(key, true)
-			branch := jit.IssueBranchName(issue)
+			branchName := jit.IssueBranchName(issue)
 
 			if c.Bool("preview") {
-				ui.Printf("@{!w}%s@|\n", branch)
+				ui.Printf("@{!w}%s@|\n", branchName)
 				return
 			}
 
 			if c.Bool("copy") {
-				if err := cmd.Copy(branch); err != nil {
+				if err := cmd.Copy(branchName); err != nil {
 					panic(err)
 				}
 
-				ui.Printf("@{!w}Copied!@| %s\n", branch)
+				ui.Printf("@{!w}Copied!@| %s\n", branchName)
 				return
 			}
 
-			createBranch(branch)
+			createBranch(branchName)
 		},
 	})
 }
 
-func checkoutBranch(branch string) {
-	output, err := git.Checkout(branch)
+func checkoutBranch(branch *git.Branch) {
+	output, err := branch.Checkout()
 	if err != nil {
 		panic(err)
 	}
@@ -65,8 +65,10 @@ func checkoutBranch(branch string) {
 	ui.Printf("@{!w}%s@|", output)
 }
 
-func createBranch(branch string) {
-	exists, err := git.BranchExists(branch)
+func createBranch(branchName string) {
+	branch := &git.Branch{Name: branchName}
+
+	exists, err := branch.Exists()
 	if err != nil {
 		panic(err)
 	}
@@ -76,7 +78,7 @@ func createBranch(branch string) {
 		return
 	}
 
-	if _, err := git.CreateBranch(branch); err != nil {
+	if _, err := branch.Create(); err != nil {
 		panic(err)
 	}
 
