@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"strings"
 	"text/template"
+
+	"github.com/robhurring/jit/jit"
 )
 
 const (
@@ -42,7 +44,7 @@ const (
 {{ end }}`
 
 	pullRequestTemplate = `
-/cc REVIEWER
+/cc {{ .Fields.CodeReviewer.DisplayName | username }}
 
 [JIRA {{ .Key }}]({{ .Self }}): {{ .Fields.Summary }}
 
@@ -71,7 +73,8 @@ var (
 
 func init() {
 	templateFuncs := template.FuncMap{
-		"trim": strings.TrimSpace,
+		"trim":     strings.TrimSpace,
+		"username": findUsername,
 	}
 
 	t := template.New("all")
@@ -90,4 +93,9 @@ func RenderTemplate(name string, data interface{}) string {
 
 func PrintTemplate(name string, data interface{}) {
 	Println(RenderTemplate(name, data))
+}
+
+func findUsername(name string) string {
+	username := jit.FindUsername(name)
+	return strings.Replace(username, "@", "@@", 1)
 }
