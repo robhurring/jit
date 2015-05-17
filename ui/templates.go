@@ -39,8 +39,7 @@ const (
 "{{ $comment.Body | trim }}"
 @{!k}{{ $comment.Author.DisplayName }}@|
 {{ end }}
-{{ end }}
-`
+{{ end }}`
 
 	pullRequestTemplate = `
 /cc {{ .CodeReviewer | username }}
