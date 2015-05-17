@@ -19,7 +19,7 @@ Make sure you have a working Go environment (go 1.1 is required). See the instal
 
 To install jit, download the latest release:
 
-* [JIT v0.0.1](https://github.com/robhurring/jit/releases)
+* [Latest Release](https://github.com/robhurring/jit/releases/latest)
 
 To install jit from source:
 
