@@ -5,7 +5,7 @@
                                 \/_____/   \/_/     \/_/
                                               Jira + Git
 
-###### About
+## About
 
 Jerry is a small command-line tool used to aid my day-to-day workflow using jira
 and github. I'm not sure how useful it will be for anyone else not working the same way.
@@ -23,6 +23,35 @@ To install jit, simply run:
 Make sure your PATH includes to the $GOPATH/bin directory so your commands can be easily used:
 
 `export PATH=$PATH:$GOPATH/bin`
+
+## Setup
+
+Jit requires a base setup to be useful.
+
+```json
+{
+  "jira": {
+    "host": "https://fynanz.atlassian.net",
+    "api_path": "/rest/api/2",
+    "activity_path": "/activity",
+    "login": "",
+    "password": "",
+    "defaultProject": ""
+  },
+  "github": {
+    "username": "",
+    "token": ""
+  },
+  "maxBranchLength": 35,
+  "defaultRemote": "origin",
+  "defaultBranch": "dev",
+  "associatedPaths": [
+  ],
+  "userMap": {
+    "rob hurring": "robhurring"
+  }
+}
+```
 
 ## Commands
 
