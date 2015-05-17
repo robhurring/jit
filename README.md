@@ -44,7 +44,7 @@ An example configuration looks like this:
     "activity_path": "/activity",
     "login": "JIRA_PASSWORD",
     "password": "JIRA_PASSWORD",
-    // when using naked issue numbers with JIT, this project will be pre-pended
+    // when using naked issue numbers with JIT, this project will be prepended
     "defaultProject": ""
   },
   "github": {
