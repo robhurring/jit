@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/codegangsta/cli"
+	"github.com/robhurring/jit/git"
 	"github.com/robhurring/jit/jit"
 	"github.com/robhurring/jit/ui"
 )
@@ -36,4 +37,25 @@ func (r *Runner) Execute(app *cli.App) {
 
 	app.Commands = r.commands
 	app.Run(os.Args)
+}
+
+func DetectIssue(args []string) (key string, err error) {
+	if len(args) > 0 {
+		key = jit.NormalizeIssueKey(args[0])
+	} else {
+		branch, branchErr := git.CurrentBranch()
+		if branchErr != nil {
+			err = branchErr
+			return
+		}
+
+		if match, ok := jit.ExtractIssue(branch.Name); ok {
+			key = match
+			return
+		}
+
+		panic("No issue given, or found for the current branch!")
+	}
+
+	return
 }

@@ -13,7 +13,7 @@ func init() {
 		ShortName: "o",
 		Usage:     "Open the [ISSUE] in the browser",
 		Action: func(c *cli.Context) {
-			key, err := jit.FindIssueKey(c.Args())
+			key, err := DetectIssue(c.Args())
 
 			if err != nil {
 				ui.Errorln(err)

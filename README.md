@@ -5,6 +5,7 @@
                                 \/_____/   \/_/     \/_/
                                               Jira + Git
 
+
 ## About
 
 JIT is a small command-line tool used to aid my day-to-day workflow using jira

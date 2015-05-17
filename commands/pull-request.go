@@ -51,7 +51,7 @@ func init() {
 				base = branch.ShortName()
 			}
 
-			key, err := jit.FindIssueKey(c.Args())
+			key, err := DetectIssue(c.Args())
 			if err != nil {
 				panic(err)
 			}

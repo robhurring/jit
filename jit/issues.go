@@ -7,7 +7,10 @@ import (
 	"github.com/robhurring/go-jira-client"
 )
 
-var jiraConfig *JiraConfig
+var (
+	issueRe    = regexp.MustCompile("^([A-Z-]+-?[0-9]+)")
+	jiraConfig *JiraConfig
+)
 
 func init() {
 	jiraConfig = AppConfig.Jira
@@ -37,14 +40,12 @@ func (i *Issue) BranchName() string {
 	return trimMaxLength(underscored, "_", maxBranchLength)
 }
 
-func FindIssueKey(args []string) (key string, err error) {
-	err = nil
-	key = ""
+func ExtractIssue(data string) (match string, ok bool) {
+	ok = false
 
-	if len(args) > 0 {
-		key = NormalizeIssueKey(args[0])
-	} else {
-		panic("No issue given, or could be found for the current branch!")
+	if found := issueRe.FindString(data); found != "" {
+		ok = true
+		match = found
 	}
 
 	return

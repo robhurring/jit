@@ -13,7 +13,7 @@ func init() {
 		ShortName: "in",
 		Usage:     "Get info about an ISSUE",
 		Action: func(c *cli.Context) {
-			key, err := jit.FindIssueKey(c.Args())
+			key, err := DetectIssue(c.Args())
 			if err != nil {
 				panic(err)
 			}

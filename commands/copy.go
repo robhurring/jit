@@ -13,7 +13,7 @@ func init() {
 		ShortName: "cp",
 		Usage:     "Copy the [ISSUE] URL to your clipboard",
 		Action: func(c *cli.Context) {
-			key, err := jit.FindIssueKey(c.Args())
+			key, err := DetectIssue(c.Args())
 
 			if err != nil {
 				ui.Errorln(err)

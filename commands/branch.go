@@ -29,7 +29,7 @@ func init() {
 				panic(err)
 			}
 
-			key, err := jit.FindIssueKey(c.Args())
+			key, err := DetectIssue(c.Args())
 			if err != nil {
 				panic(err)
 			}
