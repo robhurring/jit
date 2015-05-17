@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/codegangsta/cli"
+	"github.com/robhurring/jit/jit"
 	"github.com/robhurring/jit/ui"
 )
 
@@ -20,11 +21,17 @@ func (r *Runner) Add(c *cli.Command) {
 }
 
 func (r *Runner) Execute(app *cli.App) {
+	// Handle any panics
 	defer func() {
 		if err := recover(); err != nil {
 			ui.Errorln(err)
 			os.Exit(1)
 		}
+	}()
+
+	// Update config
+	defer func() {
+		jit.SaveConfig()
 	}()
 
 	app.Commands = r.commands
