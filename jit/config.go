@@ -30,8 +30,6 @@ type Config struct {
 	Jira            *JiraConfig       `json:"jira"`
 	Github          *GithubConfig     `json:"github"`
 	MaxBranchLength int               `json:"maxBranchLength"`
-	DefaultRemote   string            `json:"defaultRemote"`
-	DefaultBranch   string            `json:"defaultBranch"`
 	AssociatedPaths []string          `json:"associatedPaths"`
 	UserMap         map[string]string `json:"userMap"`
 }
@@ -70,8 +68,6 @@ func createConfig() {
 			Token:    "",
 		},
 		MaxBranchLength: 25,
-		DefaultRemote:   "origin",
-		DefaultBranch:   "dev",
 		AssociatedPaths: []string{},
 		UserMap:         make(map[string]string, 0),
 	}

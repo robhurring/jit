@@ -29,22 +29,21 @@ Make sure your PATH includes to the $GOPATH/bin directory so your commands can b
 Jit requires a base setup to be useful.
 
 ```json
+// ~/.config/jit/config.json
 {
   "jira": {
     "host": "https://fynanz.atlassian.net",
     "api_path": "/rest/api/2",
     "activity_path": "/activity",
-    "login": "",
-    "password": "",
+    "login": "JIRA_PASSWORD",
+    "password": "JIRA_PASSWORD",
     "defaultProject": ""
   },
   "github": {
-    "username": "",
-    "token": ""
+    "username": "GITHUB_USERNAME",
+    "token": "TOKEN"
   },
   "maxBranchLength": 35,
-  "defaultRemote": "origin",
-  "defaultBranch": "dev",
   "associatedPaths": [
   ],
   "userMap": {
