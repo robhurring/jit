@@ -64,6 +64,17 @@ func normalizeBranchName(branch string) (output string, ok bool) {
 	return
 }
 
+func HasBranchNamed(dir, name string) (match bool) {
+	match = false
+
+	output, _ := cmd.New("git").WithArgs("-C", dir, "branch", "--list", "--all", name).CombinedOutput()
+	if output != "" {
+		match = true
+	}
+
+	return
+}
+
 func CurrentBranch() (branch *Branch, err error) {
 	output, err := cmd.New("git").WithArgs("rev-parse", "--abbrev-ref", "HEAD").CombinedOutput()
 	name := strings.TrimSpace(output)

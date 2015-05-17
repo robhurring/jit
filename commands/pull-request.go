@@ -79,8 +79,30 @@ func init() {
 	})
 }
 
+type pullRequestTemplateData struct {
+	CodeReviewer string
+	Key          string
+	URL          string
+	Title        string
+	Associated   []string
+}
+
+func pullRequestTemplate(issue *jit.Issue) *pullRequestTemplateData {
+	associated := git.AssociatedProjects(issue.BranchName())
+	data := &pullRequestTemplateData{
+		CodeReviewer: issue.Fields.CodeReviewer.DisplayName,
+		Key:          issue.Key,
+		URL:          issue.Self,
+		Title:        issue.Fields.Summary,
+		Associated:   associated,
+	}
+
+	return data
+}
+
 func makePull(head, base string, issue *jit.Issue) *github.NewPullRequest {
-	body := strings.TrimSpace(ui.RenderTemplate("pull-request.body", issue))
+	body := ui.RenderTemplate("pull-request.body", pullRequestTemplate(issue))
+	body = strings.TrimSpace(body)
 	title := issue.String()
 
 	pull := &github.NewPullRequest{

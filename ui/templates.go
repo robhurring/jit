@@ -44,13 +44,13 @@ const (
 {{ end }}`
 
 	pullRequestTemplate = `
-/cc {{ .Fields.CodeReviewer.DisplayName | username }}
+/cc {{ .CodeReviewer | username }}
 
-[JIRA {{ .Key }}]({{ .Self }}): {{ .Fields.Summary }}
+[JIRA {{ .Key }}]({{ .URL }}): {{ .Title }}
 
 ### Associated
-
-n/a
+{{ range $associated := .Associated }}
+{{ $associated }}{{ end }}
 
 ### Summary
 

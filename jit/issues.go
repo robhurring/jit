@@ -98,9 +98,12 @@ func min(a, b int) int {
 func trimMaxLength(s, sep string, maxLength int) string {
 	cutLine := maxLength
 
-	trimmed := s[:cutLine]
-	lastOccurance := strings.LastIndex(trimmed, sep)
-	cutLine = min(maxLength, lastOccurance)
+	if len(s) > maxLength {
+		trimmed := s[:cutLine]
+		lastOccurance := strings.LastIndex(trimmed, sep)
+		cutLine = min(maxLength, lastOccurance)
+		return trimmed[:cutLine]
+	}
 
-	return trimmed[:cutLine]
+	return s
 }
