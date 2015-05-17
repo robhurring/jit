@@ -13,13 +13,11 @@ const (
 @y{{ .Key }}: @{!w}{{ .Fields.Summary }}
 @{!k}{{ .Self }}
 
-@bCreator:@|  {{ .Fields.Reporter.DisplayName }}
-@bSponsor:@| {{ .Fields.Sponsor.DisplayName }}
-@bDeveloper:@| {{ .Fields.PrimaryDeveloper.DisplayName }}
-@bReviewer:@| {{ .Fields.CodeReviewer.DisplayName }}
-@bQA Reviewer:@| {{ .Fields.QAReviewer.DisplayName }}
-@bRelease Manager:@| {{ .Fields.ReleaseManager.DisplayName }}
-@bAssigned:@| {{ .Fields.Assignee.DisplayName }}
+@bReporter:@| {{ if .Fields.Reporter }}{{ .Fields.Reporter.DisplayName }}{{end}}
+@bAssigned:@| {{ if .Fields.Assignee }}{{ .Fields.Assignee.DisplayName }}{{end}}
+@bDeveloper:@| {{ if .Fields.PrimaryDeveloper }}{{ .Fields.PrimaryDeveloper.DisplayName }}{{ end }}
+@bReviewer:@| {{ if .Fields.CodeReviewer }}{{ .Fields.CodeReviewer.DisplayName }}{{ end }}
+@bAssigned:@| {{ if .Fields.Assignee }}{{ .Fields.Assignee.DisplayName }}{{ end }}
 {{ if .Links }}
 @{!k}-----------------------8<-------------------------------------------------------@|
 
@@ -41,7 +39,8 @@ const (
 "{{ $comment.Body | trim }}"
 @{!k}{{ $comment.Author.DisplayName }}@|
 {{ end }}
-{{ end }}`
+{{ end }}
+`
 
 	pullRequestTemplate = `
 /cc {{ .CodeReviewer | username }}
@@ -73,8 +72,9 @@ var (
 
 func init() {
 	templateFuncs := template.FuncMap{
-		"trim":     strings.TrimSpace,
-		"username": findUsername,
+		"trim":      strings.TrimSpace,
+		"username":  findUsername,
+		"ifPresent": ifPresent,
 	}
 
 	t := template.New("all")
@@ -98,4 +98,8 @@ func PrintTemplate(name string, data interface{}) {
 func findUsername(name string) string {
 	username := jit.FindUsername(name)
 	return strings.Replace(username, "@", "@@", 1)
+}
+
+func ifPresent(data string) string {
+	return "N/a"
 }

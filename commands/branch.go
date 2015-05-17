@@ -34,7 +34,11 @@ func init() {
 				panic(err)
 			}
 
-			issue := jit.GetIssue(key, true)
+			issue, err := jit.GetIssue(key, true)
+			if err != nil {
+				panic(err)
+			}
+
 			branchName := issue.BranchName()
 
 			if c.Bool("preview") {

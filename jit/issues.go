@@ -17,7 +17,7 @@ func init() {
 }
 
 type Issue struct {
-	gojira.Issue
+	*gojira.Issue
 }
 
 func (i *Issue) URL() string {
@@ -51,7 +51,7 @@ func ExtractIssue(data string) (match string, ok bool) {
 	return
 }
 
-func GetIssue(key string, allFields bool) *Issue {
+func GetIssue(key string, allFields bool) (issue *Issue, err error) {
 	var params gojira.Params = nil
 	key = NormalizeIssueKey(key)
 
@@ -67,12 +67,16 @@ func GetIssue(key string, allFields bool) *Issue {
 		params = gojira.Params{"fields": "key,summary"}
 	}
 
-	jiraIssue := jira.Issue(key, params)
-	issue := &Issue{
+	jiraIssue, err := jira.Issue(key, params)
+	if err != nil {
+		return
+	}
+
+	issue = &Issue{
 		Issue: jiraIssue,
 	}
 
-	return issue
+	return
 }
 
 func IssueURL(key string) string {

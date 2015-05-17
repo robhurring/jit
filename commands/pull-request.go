@@ -56,7 +56,11 @@ func init() {
 				panic(err)
 			}
 
-			issue := jit.GetIssue(key, true)
+			issue, err := jit.GetIssue(key, true)
+			if err != nil {
+				panic(err)
+			}
+
 			pull := makePull(head, base, issue)
 
 			if c.Bool("preview") {

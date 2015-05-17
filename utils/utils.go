@@ -16,9 +16,13 @@ func Check(err error) {
 	}
 }
 
-func Debug(obj ...interface{}) {
+func Dump(obj interface{}) {
 	data, _ := json.Marshal(obj)
 	fmt.Println(string(data))
+}
+
+func Debug(obj interface{}) {
+	fmt.Printf("%#v", obj)
 }
 
 func FileExists(filename string) bool {
