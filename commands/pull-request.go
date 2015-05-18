@@ -136,5 +136,6 @@ func createPullRequest(pull *github.NewPullRequest) {
 		panic(err)
 	}
 
-	ui.Printf("@{!w}Created!@| %s\n", *newPull.URL)
+	ui.Printf("@{!w}Created!@| %s\n", *newPull.HTMLURL)
+	cmd.Open(*newPull.HTMLURL)
 }

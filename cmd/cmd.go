@@ -20,6 +20,10 @@ func Copy(data string) (err error) {
 	return
 }
 
+func Open(location string) error {
+	return New("open").WithArg(location).Run()
+}
+
 type Cmd struct {
 	Name string
 	Args []string
