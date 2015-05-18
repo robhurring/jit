@@ -95,8 +95,7 @@ func PrintTemplate(name string, data interface{}) {
 }
 
 func findUsername(name string) string {
-	username := jit.FindUsername(name)
-	return strings.Replace(username, "@", "@@", 1)
+	return jit.FindUsername(name)
 }
 
 func ifPresent(data string) string {
