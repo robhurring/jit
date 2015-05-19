@@ -10,7 +10,6 @@ import (
 	"syscall"
 
 	"github.com/kballard/go-shellquote"
-	"github.com/robhurring/jit/utils"
 )
 
 func Copy(data string) (err error) {
@@ -140,7 +139,9 @@ func Pipeline(list ...*Cmd) (pipeStdout, pipeStderr string, perr error) {
 
 func New(cmd string) *Cmd {
 	cmds, err := shellquote.Split(cmd)
-	utils.Check(err)
+	if err != nil {
+		panic(err)
+	}
 
 	name := cmds[0]
 	args := make([]string, 0)
