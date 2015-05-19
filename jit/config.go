@@ -67,7 +67,7 @@ func createConfig() {
 			Username: "",
 			Token:    "",
 		},
-		MaxBranchLength: 25,
+		MaxBranchLength: 35,
 		AssociatedPaths: []string{},
 		UserMap:         make(map[string]string, 0),
 	}
@@ -94,7 +94,9 @@ func GetConfig() (config *Config) {
 
 	config = new(Config)
 	data, err := ioutil.ReadFile(configFile)
-	utils.Check(err)
+	if err != nil {
+		panic(err)
+	}
 
 	json.Unmarshal(data, config)
 
