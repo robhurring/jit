@@ -48,7 +48,6 @@ func (cmd *Cmd) WithArgs(args ...string) *Cmd {
 
 func (cmd *Cmd) CombinedOutput() (string, error) {
 	output, err := exec.Command(cmd.Name, cmd.Args...).CombinedOutput()
-
 	return string(output), err
 }
 

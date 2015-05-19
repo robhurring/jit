@@ -23,3 +23,12 @@ func Dir() (string, error) {
 
 	return gitDir, nil
 }
+
+func SetConfig(key, value string) (string, error) {
+	return cmd.New("git").WithArgs("config", key, value).CombinedOutput()
+}
+
+func GetConfig(key string) (string, error) {
+	output, err := cmd.New("git").WithArgs("config", key).CombinedOutput()
+	return strings.TrimSpace(output), err
+}

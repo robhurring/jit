@@ -14,17 +14,16 @@ func init() {
 		Usage:     "Copy the [ISSUE] URL to your clipboard",
 		Action: func(c *cli.Context) {
 			key, err := DetectIssue(c.Args())
-
 			if err != nil {
-				ui.Errorln(err)
-			} else {
-				url := jit.IssueURL(key)
-				if err := cmd.Copy(url); err != nil {
-					panic(err)
-				}
-
-				ui.Printf("@{!w}Copied!@| %s\n", url)
+				panic(err)
 			}
+
+			url := jit.IssueURL(key)
+			if err := cmd.Copy(url); err != nil {
+				panic(err)
+			}
+
+			ui.Printf("@{!w}Copied!@| %s\n", url)
 		},
 	})
 }

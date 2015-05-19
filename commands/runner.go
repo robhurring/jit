@@ -42,20 +42,27 @@ func (r *Runner) Execute(app *cli.App) {
 func DetectIssue(args []string) (key string, err error) {
 	if len(args) > 0 {
 		key = jit.NormalizeIssueKey(args[0])
-	} else {
-		branch, branchErr := git.CurrentBranch()
-		if branchErr != nil {
-			err = branchErr
-			return
-		}
-
-		if match, ok := jit.ExtractIssue(branch.Name); ok {
-			key = match
-			return
-		}
-
-		panic("No issue given, or found for the current branch!")
+		return
 	}
 
+	branch, branchErr := git.CurrentBranch()
+	if branchErr != nil {
+		err = branchErr
+		return
+	}
+
+	if match, ok := jit.ExtractIssue(branch.Name); ok {
+		key = match
+		return
+	}
+
+	keyPath := "branch." + branch.Name + ".issue"
+	bound, err := git.GetConfig(keyPath)
+	if err == nil {
+		key = bound
+		return
+	}
+
+	panic("No issue given, or found for the current branch!")
 	return
 }
