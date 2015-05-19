@@ -31,6 +31,7 @@ func init() {
 type infoData struct {
 	*jit.Issue
 	Links []*issueLink
+	URL   string
 }
 
 type issueLink struct {
@@ -42,6 +43,8 @@ type issueLink struct {
 
 func issueInfo(issue *jit.Issue) {
 	info := &infoData{Issue: issue}
+	info.URL = issue.URL()
+
 	links := make([]*issueLink, 0)
 
 	for _, link := range issue.Fields.IssueLinks {

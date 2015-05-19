@@ -11,7 +11,7 @@ import (
 const (
 	issueInfoTemplate = `
 @y{{ .Key }}: @{!w}{{ .Fields.Summary }}
-@{!k}{{ .Self }}
+@{!k}{{ .URL }}
 
 @bReporter:@| {{ if .Fields.Reporter }}{{ .Fields.Reporter.DisplayName }}{{end}}
 @bAssigned:@| {{ if .Fields.Assignee }}{{ .Fields.Assignee.DisplayName }}{{end}}
