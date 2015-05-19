@@ -69,8 +69,10 @@ func init() {
 			}
 
 			if c.Bool("copy") {
-				output := ui.RenderTemplate("pull-request.info", pull)
-				if err := cmd.Copy(output); err != nil {
+				body := ui.RenderTemplate("pull-request.body", pullRequestTemplate(issue))
+				body = strings.TrimSpace(body)
+
+				if err := cmd.Copy(body); err != nil {
 					panic(err)
 				} else {
 					ui.Printf("@{!w}Copied!@|\n")

@@ -61,7 +61,7 @@ const (
 	pullRequestInfoTemplate = `
 @{!w}{{ .Title }}@|
 
-{{ .Body }}
+{{ .Body | escapeColors }}
 `
 )
 
@@ -71,9 +71,9 @@ var (
 
 func init() {
 	templateFuncs := template.FuncMap{
-		"trim":      strings.TrimSpace,
-		"username":  findUsername,
-		"ifPresent": ifPresent,
+		"trim":         strings.TrimSpace,
+		"username":     jit.FindUsername,
+		"escapeColors": escapeColors,
 	}
 
 	t := template.New("all")
@@ -94,11 +94,6 @@ func PrintTemplate(name string, data interface{}) {
 	Println(RenderTemplate(name, data))
 }
 
-func findUsername(name string) string {
-	username := jit.FindUsername(name)
-	return strings.Replace(username, "@", "@@", 1)
-}
-
-func ifPresent(data string) string {
-	return "N/a"
+func escapeColors(data string) string {
+	return strings.Replace(data, "@", "@@", -1)
 }
