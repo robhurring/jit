@@ -44,15 +44,15 @@ const (
 	pullRequestTemplate = `
 /cc {{ .CodeReviewer | username }}
 
-[JIRA {{ .Key }}]({{ .URL }}): {{ .Title }}
+[JIRA {{ .Key }}]({{ .URL }})
+{{ if .Associated }}
 
 ### Associated
 {{ range $associated := .Associated }}
 {{ $associated }}{{ end }}
-
+{{ end }}
 ### Summary
 
-* Changed A, B, C
 
 ### Testing
 
@@ -95,7 +95,8 @@ func PrintTemplate(name string, data interface{}) {
 }
 
 func findUsername(name string) string {
-	return jit.FindUsername(name)
+	username := jit.FindUsername(name)
+	return strings.Replace(username, "@", "@@", 1)
 }
 
 func ifPresent(data string) string {
