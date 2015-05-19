@@ -96,7 +96,7 @@ func pullRequestTemplate(issue *jit.Issue) *pullRequestTemplateData {
 	data := &pullRequestTemplateData{
 		CodeReviewer: issue.Fields.CodeReviewer.DisplayName,
 		Key:          issue.Key,
-		URL:          issue.Self,
+		URL:          issue.URL(),
 		Title:        issue.Fields.Summary,
 		Associated:   associated,
 	}
