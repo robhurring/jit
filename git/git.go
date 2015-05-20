@@ -32,3 +32,7 @@ func GetConfig(key string) (string, error) {
 	output, err := cmd.New("git").WithArgs("config", key).CombinedOutput()
 	return strings.TrimSpace(output), err
 }
+
+func UnsetConfig(key string) (string, error) {
+	return cmd.New("git").WithArgs("config", "--unset", key).CombinedOutput()
+}
