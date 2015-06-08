@@ -13,6 +13,7 @@ func init() {
 	CmdRunner.Add(&cli.Command{
 		Name:      "hub",
 		ShortName: "h",
+		Usage:     "Information about GitHub",
 		Subcommands: []cli.Command{
 			{
 				Name:  "branch",

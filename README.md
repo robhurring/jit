@@ -183,6 +183,55 @@ $ jit copy DEV-12
 # => Copied! https://mycompany.atlassian.net/browse/DEV-12
 ```
 
+#### hub, h
+
+Information about the GitHub project
+
+###### branch
+
+Get the default GitHub branch for the current repo.
+
+```sh
+$ jit hub branch
+# => master
+```
+
+###### owner
+
+Get the GitHub project owner for the current repo.
+
+```sh
+$ jit hub owner
+# => robhurring
+```
+
+###### name
+
+Get the GitHub project name for the current repo.
+
+```sh
+$ jit hub name
+# => jit
+```
+
+###### url
+
+Get the GitHub project URL for the current repo.
+
+```sh
+$ jit hub url
+# => https://github.com/robhurring/jit.git
+```
+
+###### open
+
+Open the GitHub project in your browser.
+
+```sh
+$ jit hub open
+# => Opening https://github.com/robhurring/jit.git
+```
+
 ## Contributing
 
 1. Fork it ( https://github.com/robhurring/jit/fork )
