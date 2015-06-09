@@ -69,7 +69,7 @@ const (
 `
 
 	pullRequestInfoTemplate = `
-@yThis pull request will merge @{Yk}{{ .Head }}@y into @{Yk}{{ .Base }}@y!@|
+@yThis pull request will merge @{Yk}{{ .Head }}@y into @{Yk}{{ .Base }}@|
 
 @{!k}-----------------------8<-------------------------------------------------------@|
 
