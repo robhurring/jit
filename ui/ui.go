@@ -1,8 +1,10 @@
 package ui
 
 import (
+	"fmt"
 	"io"
 	"os"
+	"strings"
 
 	"github.com/wsxiaoys/terminal/color"
 )
@@ -19,6 +21,10 @@ var Default UI = Console{Stdout: os.Stdout, Stderr: os.Stderr}
 
 func Printf(format string, a ...interface{}) (n int, err error) {
 	return Default.Printf(format, a...)
+}
+
+func Sprintf(format string, a ...interface{}) string {
+	return color.Sprintf(format, a...)
 }
 
 func Println(a ...interface{}) (n int, err error) {
@@ -39,6 +45,15 @@ func Write(p []byte) (n int, err error) {
 
 func Error(s string) error {
 	return color.Errorf("@r%s@|", s)
+}
+
+func AskForConfirmation(prompt string) bool {
+	var response string
+
+	fmt.Printf(prompt)
+	fmt.Scanln(&response)
+
+	return strings.HasPrefix(strings.ToLower(response), "y")
 }
 
 type Console struct {

@@ -69,7 +69,7 @@ func init() {
 			}
 
 			if c.Bool("copy") {
-				body := ui.RenderTemplate("pull-request.body", pullRequestTemplate(issue))
+				body := ui.RenderTemplate("pull-request.body", pullRequestTemplate(issue, base))
 				body = strings.TrimSpace(body)
 
 				if err := cmd.Copy(body); err != nil {
@@ -86,28 +86,37 @@ func init() {
 }
 
 type pullRequestTemplateData struct {
-	CodeReviewer string
-	Key          string
-	URL          string
-	Title        string
-	Associated   []string
+	CodeReviewer  string
+	Key           string
+	URL           string
+	Title         string
+	Associated    []string
+	ModifiedSpecs []string
+	AddSignature  bool
 }
 
-func pullRequestTemplate(issue *jit.Issue) *pullRequestTemplateData {
+func pullRequestTemplate(issue *jit.Issue, base string) *pullRequestTemplateData {
 	associated := git.AssociatedProjects(issue.BranchName())
+	modifiedSpecs, err := git.ModifiedSpecFiles(base)
+	if err != nil {
+		panic(err)
+	}
+
 	data := &pullRequestTemplateData{
-		CodeReviewer: issue.Fields.CodeReviewer.DisplayName,
-		Key:          issue.Key,
-		URL:          issue.URL(),
-		Title:        issue.Fields.Summary,
-		Associated:   associated,
+		CodeReviewer:  issue.Fields.CodeReviewer.DisplayName,
+		Key:           issue.Key,
+		URL:           issue.URL(),
+		Title:         issue.Fields.Summary,
+		Associated:    associated,
+		ModifiedSpecs: modifiedSpecs,
+		AddSignature:  jit.AppConfig.SignPullRequests,
 	}
 
 	return data
 }
 
 func makePull(head, base string, issue *jit.Issue) *github.NewPullRequest {
-	body := ui.RenderTemplate("pull-request.body", pullRequestTemplate(issue))
+	body := ui.RenderTemplate("pull-request.body", pullRequestTemplate(issue, base))
 	body = strings.TrimSpace(body)
 	title := issue.String()
 
@@ -132,12 +141,18 @@ func createPullRequest(pull *github.NewPullRequest) {
 		panic(err)
 	}
 
-	client := jit.NewAuthenticatedGithubClient()
-	newPull, _, err := client.PullRequests.Create(project.Owner, project.Name, pull)
-	if err != nil {
-		panic(err)
-	}
+	prompt := ui.Sprintf("@yThis pull request will merge @{Yk}%s@y into @{Yk}%s@|\nDo you wish to continue? (yes/no): ", *pull.Head, *pull.Base)
 
-	ui.Printf("@{!w}Created!@| %s\n", *newPull.HTMLURL)
-	cmd.Open(*newPull.HTMLURL)
+	if ok := ui.AskForConfirmation(prompt); ok {
+		client := jit.NewAuthenticatedGithubClient()
+		newPull, _, err := client.PullRequests.Create(project.Owner, project.Name, pull)
+		if err != nil {
+			panic(err)
+		}
+
+		ui.Printf("@{!w}Opened!@| %s\n", *newPull.HTMLURL)
+		cmd.Open(*newPull.HTMLURL)
+	} else {
+		panic("Cancelled.")
+	}
 }

@@ -64,7 +64,9 @@ An example configuration looks like this:
   // that.
   "userMap": {
     "rob hurring": "robhurring"
-  }
+  },
+  // will add a little Jit signature to PRs if true :D
+  "signPullRequests": true
 }
 ```
 

@@ -52,13 +52,26 @@ const (
 {{ end }}
 ### Summary
 
-
+{{ if .ModifiedSpecs }}
+### Modified Specs
+{{ range $spec := .ModifiedSpecs }}
+		bundle exec rspec {{ $spec }}{{ end }}
+{{ else }}
 ### Testing
 
-` + "`bundle exec rspec`"
+		bundle exec rspec
+{{ end }}
+{{ if .AddSignature }}
+
+
+<sub>[generated with :heart:](robhurring/jit)</sub>
+{{ end }}
+`
 
 	pullRequestInfoTemplate = `
-@yThis pull request will merge @r{{ .Head }}@y into @r{{ .Base }}@y!@|
+@yThis pull request will merge @{Yk}{{ .Head }}@y into @{Yk}{{ .Base }}@y!@|
+
+@{!k}-----------------------8<-------------------------------------------------------@|
 
 @{!w}{{ .Title }}@|
 

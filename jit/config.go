@@ -27,11 +27,12 @@ func ConfigPath() string {
 }
 
 type Config struct {
-	Jira            *JiraConfig       `json:"jira"`
-	Github          *GithubConfig     `json:"github"`
-	MaxBranchLength int               `json:"maxBranchLength"`
-	AssociatedPaths []string          `json:"associatedPaths"`
-	UserMap         map[string]string `json:"userMap"`
+	Jira             *JiraConfig       `json:"jira"`
+	Github           *GithubConfig     `json:"github"`
+	MaxBranchLength  int               `json:"maxBranchLength"`
+	AssociatedPaths  []string          `json:"associatedPaths"`
+	UserMap          map[string]string `json:"userMap"`
+	SignPullRequests bool              `json:"signPullRequests"`
 }
 
 type GithubConfig struct {
@@ -67,9 +68,10 @@ func createConfig() {
 			Username: "",
 			Token:    "",
 		},
-		MaxBranchLength: 35,
-		AssociatedPaths: []string{},
-		UserMap:         make(map[string]string, 0),
+		MaxBranchLength:  35,
+		AssociatedPaths:  []string{},
+		UserMap:          make(map[string]string, 0),
+		SignPullRequests: true,
 	}
 	WriteConfig(config)
 }
