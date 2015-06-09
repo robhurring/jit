@@ -46,7 +46,6 @@ const (
 
 [JIRA {{ .Key }}]({{ .URL }})
 {{ if .Associated }}
-
 ### Associated
 {{ range $associated := .Associated }}
 {{ $associated }}{{ end }}
@@ -56,9 +55,11 @@ const (
 
 ### Testing
 
-` + "`rake spec`"
+` + "`bundle exec rspec`"
 
 	pullRequestInfoTemplate = `
+@yThis pull request will merge @r{{ .Head }}@y into @r{{ .Base }}@y!@|
+
 @{!w}{{ .Title }}@|
 
 {{ .Body | escapeColors }}
