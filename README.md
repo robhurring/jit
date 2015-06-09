@@ -29,6 +29,8 @@ Make sure your PATH includes to the $GOPATH/bin directory so your commands can b
 
 `export PATH=$PATH:$GOPATH/bin`
 
+**NOTE:** `jit` will not work until it has been configured. To create the initial config file, run `jit` and it should create a file `~/.config/jit/config.json`. Edit this with your credentials to get it going.
+
 ## Setup
 
 To configure JIT so it can talk with Github and Jira, you need to add the config file to `~/.config/jit/config.json`
