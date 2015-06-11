@@ -23,10 +23,6 @@ func Printf(format string, a ...interface{}) (n int, err error) {
 	return Default.Printf(format, a...)
 }
 
-func Sprintf(format string, a ...interface{}) string {
-	return color.Sprintf(format, a...)
-}
-
 func Println(a ...interface{}) (n int, err error) {
 	return Default.Println(a...)
 }
@@ -41,6 +37,10 @@ func Errorln(a ...interface{}) (n int, err error) {
 
 func Write(p []byte) (n int, err error) {
 	return Default.Write(p)
+}
+
+func Sprintf(format string, a ...interface{}) string {
+	return color.Sprintf(format, a...)
 }
 
 func Error(s string) error {

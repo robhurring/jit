@@ -64,7 +64,9 @@ const (
 {{ if .AddSignature }}
 
 
-<sub>[generated with :heart:](robhurring/jit)</sub>
+
+
+[![](https://raw.githubusercontent.com/robhurring/jit/master/badge.png)](https://github.com/robhurring/jit)
 {{ end }}
 `
 
