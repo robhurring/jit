@@ -42,7 +42,7 @@ const (
 {{ end }}`
 
 	pullRequestTemplate = `
-/cc {{ .CodeReviewer | username }}
+{{ if .CodeReviewer }}/cc {{ .CodeReviewer | username }}{{ end }}
 
 [JIRA {{ .Key }}]({{ .URL }})
 {{ if .Associated }}

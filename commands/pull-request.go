@@ -102,11 +102,16 @@ func pullRequestTemplate(issue *jit.Issue, base string) *pullRequestTemplateData
 		panic(err)
 	}
 
+	codeReviewerName := ""
+	if issue.Fields.CodeReviewer != nil {
+		codeReviewerName = issue.Fields.CodeReviewer.DisplayName
+	}
+
 	data := &pullRequestTemplateData{
-		CodeReviewer:  issue.Fields.CodeReviewer.DisplayName,
 		Key:           issue.Key,
 		URL:           issue.URL(),
 		Title:         issue.Fields.Summary,
+		CodeReviewer:  codeReviewerName,
 		Associated:    associated,
 		ModifiedSpecs: modifiedSpecs,
 		AddSignature:  jit.AppConfig.SignPullRequests,
