@@ -17,7 +17,7 @@ func Check(err error) {
 }
 
 func Dump(obj interface{}) {
-	data, _ := json.Marshal(obj)
+	data, _ := json.MarshalIndent(obj, "", " ")
 	fmt.Println(string(data))
 }
 
