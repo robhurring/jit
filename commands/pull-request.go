@@ -5,7 +5,7 @@ import (
 
 	"github.com/codegangsta/cli"
 	"github.com/google/go-github/github"
-	"github.com/robhurring/jit/cmd"
+	"github.com/robhurring/cmd"
 	"github.com/robhurring/jit/git"
 	"github.com/robhurring/jit/jit"
 	"github.com/robhurring/jit/ui"

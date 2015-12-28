@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/robhurring/jit/cmd"
+	"github.com/robhurring/cmd"
 )
 
 var (

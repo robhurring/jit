@@ -2,7 +2,7 @@ package commands
 
 import (
 	"github.com/codegangsta/cli"
-	"github.com/robhurring/jit/cmd"
+	"github.com/robhurring/cmd"
 	"github.com/robhurring/jit/jit"
 )
 
