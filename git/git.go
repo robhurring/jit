@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/robhurring/jit/cmd"
+	"github.com/robhurring/cmd"
 )
 
 func Dir() (string, error) {

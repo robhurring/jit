@@ -3,7 +3,7 @@ package git
 import (
 	"strings"
 
-	"github.com/robhurring/jit/cmd"
+	"github.com/robhurring/cmd"
 )
 
 type fileMatcher func(string) bool
